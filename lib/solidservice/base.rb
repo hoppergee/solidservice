@@ -3,14 +3,10 @@ module SolidService
  
     class State
       def initialize(state, data={})
-        @state = state || :pending
+        @state = state || :success
         @_data = (data || {}).with_indifferent_access
       end
-  
-      def pending?
-        @state == :pending
-      end
-  
+   
       def success?
         @state == :success
       end
@@ -26,12 +22,20 @@ module SolidService
   
     class << self
       def call(params={})
-        service = new(params)
-        service.call
-        service.success! if service.state.pending?
-        service.state
-      rescue => e
-        service.fail!(error: e)
+        begin
+          service = new(params)
+          service.call
+          service.state
+
+        rescue Success
+          service.state
+
+        rescue Failure
+          service.state
+
+        rescue => e
+          service._fail(error: e)
+        end
       end
   
       def call!(params={})
@@ -41,7 +45,7 @@ module SolidService
         if state.error
           raise state.error
         else
-          raise Failure.new("Service failed", service_result: state)
+          raise Error.new("Service failed", service_result: state)
         end
       end
     end
@@ -50,7 +54,7 @@ module SolidService
   
     def initialize(params)
       @params = (params || {}).with_indifferent_access
-      @state = State.new(:pending)
+      @state = State.new(:success)
     end
   
     def call
@@ -59,9 +63,16 @@ module SolidService
   
     def success!(params={})
       @state = State.new(:success, params)
+      raise Success.new
     end
   
     def fail!(params={})
+      @state = State.new(:fail, params)
+      raise Failure.new
+    end
+
+    # Internal use only
+    def _fail(params={})
       @state = State.new(:fail, params)
     end
 
