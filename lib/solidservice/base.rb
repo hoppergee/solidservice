@@ -22,20 +22,19 @@ module SolidService
   
     class << self
       def call(params={})
-        begin
-          service = new(params)
-          service.call
-          service.state
+        service = new(params)
+        service.call
+        service.state
 
-        rescue Success
-          service.state
+      rescue Success
+        service.state
 
-        rescue Failure
-          service.state
+      rescue Failure
+        service.state
 
-        rescue => e
-          service._fail(error: e)
-        end
+      rescue => e
+        service.fail(error: e)
+        service.state
       end
   
       def call!(params={})
@@ -71,8 +70,11 @@ module SolidService
       raise Failure.new
     end
 
-    # Internal use only
-    def _fail(params={})
+    def success(params={})
+      @state = State.new(:success, params)
+    end
+
+    def fail(params={})
       @state = State.new(:fail, params)
     end
 
