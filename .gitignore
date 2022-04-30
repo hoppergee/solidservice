@@ -6,3 +6,5 @@
 /pkg/
 /spec/reports/
 /tmp/
+.matrixeval/docker-compose
+.matrixeval/gemfile_locks

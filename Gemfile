@@ -2,6 +2,10 @@
 
 source "https://rubygems.org"
 
+if rails_version = ENV['RAILS_VERSION']
+  gem 'rails', rails_version
+end
+
 # Specify your gem's dependencies in solidservice.gemspec
 gemspec
 
@@ -11,4 +15,5 @@ gem "minitest", "~> 5.0"
 
 group :development, :test do
   gem "debug"
+  gem 'matrixeval-ruby'
 end
