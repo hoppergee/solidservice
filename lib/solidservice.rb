@@ -5,6 +5,7 @@ require "active_support/core_ext/hash/indifferent_access"
 
 module SolidService
   class Error < StandardError; end
+  autoload :Failure, "solidservice/failure"
 
   autoload :Base, "solidservice/base"
 end

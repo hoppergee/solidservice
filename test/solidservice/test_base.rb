@@ -88,7 +88,7 @@ class SolidService::TestBase < ApplicationTest
     begin
       TestFailService.call!(email: 'service@example.com')
     rescue => e
-      assert e.is_a?(SolidService::Base::Failure)
+      assert e.is_a?(SolidService::Failure)
       assert_equal "Service failed", e.message
       assert_equal 'service@example.com', e.service_result.email
     end

@@ -1,15 +1,6 @@
 module SolidService
   class Base
-
-    class Failure < StandardError
-      attr_reader :service_result
-  
-      def initialize(message, params={})
-        @service_result = params[:service_result]
-        super(message)
-      end
-    end
-  
+ 
     class State
       def initialize(state, data={})
         @state = state || :pending
