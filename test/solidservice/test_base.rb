@@ -5,6 +5,23 @@ require "test_helper"
 class SolidService::TestBase < ApplicationTest
 
   ######
+  # Test .call need override
+  ######
+
+  it '.call need to be override' do
+    klass :TestExampleService, SolidService::Base do
+    end
+
+    state = TestExampleService.call
+
+    assert state.fail?
+    assert state.error.is_a?(RuntimeError)
+    assert_equal "Override please", state.error.message
+
+    remove_klass :TestExampleService
+  end
+
+  ######
   # Test .call
   ######
 
