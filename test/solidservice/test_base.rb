@@ -4,6 +4,10 @@ require "test_helper"
 
 class SolidService::TestBase < ApplicationTest
 
+  ######
+  # Test .call
+  ######
+
   def test_success_by_default
     klass :TestSuccessByDefaultService, SolidService::Base do
       def call
@@ -18,7 +22,7 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestSuccessByDefaultService
   end
 
-  def test_success
+  def test_success_in_call
     klass :TestSuccessService, SolidService::Base do
       def call
         success!(email: params[:email])
@@ -33,7 +37,7 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestSuccessService
   end
 
-  def test_call_fail
+  def test_fail_in_call
     klass :TestFailService, SolidService::Base do
       def call
         fail!(email: params[:email])
@@ -48,7 +52,7 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestFailService
   end
 
-  def test_call_fail_when_raise_error
+  def test_failure_on_raising_error_in_call
     klass :TestFailOnRaiseErrorService, SolidService::Base do
       def call
         raise StandardError.new('Something wrong')
@@ -63,7 +67,25 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestFailOnRaiseErrorService
   end
 
-  def test_call_bang_success
+  ######
+  # Test .call!
+  ######
+
+  def test_success_by_default_in_call!
+    klass :TestSuccessByDefaultService, SolidService::Base do
+      def call
+      end
+    end
+
+    state = TestSuccessByDefaultService.call!(email: 'service@example.com')
+
+    assert state.success?
+    assert_nil state.email
+
+    remove_klass :TestSuccessByDefaultService
+  end
+
+  def test_success_in_call!
     klass :TestSuccessService, SolidService::Base do
       def call
         success!(email: params[:email])
@@ -78,7 +100,7 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestSuccessService
   end
 
-  def test_call_bang_fail
+  def test_fail_in_call!
     klass :TestFailService, SolidService::Base do
       def call
         fail!(email: params[:email])
@@ -96,7 +118,7 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestFailService
   end
 
-  def test_call_bang_fail_when_raise_error
+  def test_failure_on_raising_error_in_call!
     klass :TestFailOnRaiseErrorService, SolidService::Base do
       def call
         raise StandardError.new('Something wrong')
