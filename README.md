@@ -2,14 +2,15 @@
 
 Servcie object with a simple API.
 
-- One service per action
-- Service only has one public method `ExampleService.call(any: 'thing', you: 'like')`
-- The public method `.call` only need a optional hash input just like a controller
-- `SolideService.call` always return a `State` object, you can ask the state object the execution result like:
-  - `state.success?`
-  - `state.fail?`
+```ruby
+result = ASolidService.call(any: 'thing', you: 'like')
+result.success? #=> true
+result.fail? #=> false
+```
 
-Please check the usage for more details
+- One service per action
+- Service only has one public method `.call` with a hash input argument
+- The `.call` always return a `State` object. You can ask the state object the execution result
 
 ## Installation
 
@@ -86,6 +87,30 @@ end
 - `success` - Just update the state to success
 - `fail!` - Fail the service immediately, any code after it won't be execute (Recommend)
 - `fail` - Just update the state to fail
+
+## How to return other data
+
+You can send data with state object like this:
+
+```ruby
+success!(user: user)
+success(user: user, item: item)
+fail!(email: email, error: error)
+fail(error: error)
+```
+
+Then we can get those data on the result:
+
+```ruby
+result = ExampleService.call
+result.success? #=> true
+result.user
+result.item
+
+result.success? #=> false
+result.error
+result.email
+```
 
 ## Servcie success by default
 
