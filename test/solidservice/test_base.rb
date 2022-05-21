@@ -134,4 +134,123 @@ class SolidService::TestBase < ApplicationTest
     remove_klass :TestFailOnRaiseErrorService
   end
 
+
+  ######
+  # Test the difference behavior of #success #fail #success! #fail!
+  ######
+
+  it "call #success twice" do
+    klass :TestSuccessService, SolidService::Base do
+      def call
+        success(email: 'hi@example.com')
+
+        success(email: params[:email])
+      end
+    end
+
+    state = TestSuccessService.call(email: 'service@example.com')
+
+    assert state.success?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestSuccessService
+  end
+
+  it "call #success! twice" do
+    klass :TestSuccessService, SolidService::Base do
+      def call
+        success!(email: 'hi@example.com')
+
+        success!(email: params[:email])
+      end
+    end
+
+    state = TestSuccessService.call(email: 'hi@example.com')
+
+    assert state.success?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestSuccessService
+  end
+
+  it "call #fail twice" do
+    klass :TestFailService, SolidService::Base do
+      def call
+        fail(email: 'hi@example.com')
+        fail(email: params[:email])
+      end
+    end
+
+    state = TestFailService.call(email: 'service@example.com')
+
+    assert state.fail?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestFailService
+  end
+
+  it "call #fail! twice" do
+    klass :TestFailService, SolidService::Base do
+      def call
+        fail!(email: 'hi@example.com')
+        fail!(email: params[:email])
+      end
+    end
+
+    state = TestFailService.call(email: 'hi@example.com')
+
+    assert state.fail?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestFailService
+  end
+
+  it "#fail then #success" do
+    klass :TestFailService, SolidService::Base do
+      def call
+        fail(email: 'hi@example.com')
+        success(email: params[:email])
+      end
+    end
+
+    state = TestFailService.call(email: 'service@example.com')
+
+    assert state.success?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestFailService
+  end
+
+  it "#fail! then #success!" do
+    klass :TestFailService, SolidService::Base do
+      def call
+        fail!(email: 'hi@example.com')
+        success!(email: params[:email])
+      end
+    end
+
+    state = TestFailService.call(email: 'hi@example.com')
+
+    assert state.fail?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestFailService
+  end
+
+  it "#success! then #fail!" do
+    klass :TestFailService, SolidService::Base do
+      def call
+        success!(email: 'hi@example.com')
+        fail!(email: params[:email])
+      end
+    end
+
+    state = TestFailService.call(email: 'hi@example.com')
+
+    assert state.success?
+    assert 'service@example.com', state.email
+
+    remove_klass :TestFailService
+  end
+
 end
