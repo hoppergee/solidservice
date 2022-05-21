@@ -42,6 +42,10 @@ module SolidService
     def call
       raise "Override please"
     end
+
+    ##########
+    # Private
+    ##########
   
     def success!(params={})
       @state = State.new(:success, params)
