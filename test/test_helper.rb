@@ -11,7 +11,7 @@ require "solidservice"
 require "minitest/autorun"
 require 'debug'
 
-class ApplicationTest < Minitest::Test
+class ApplicationTest < Minitest::Spec
 
   def klass(class_name, parent=Object, &block)
     klass = Class.new(parent)
