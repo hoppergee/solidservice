@@ -1,5 +1,8 @@
 # SolidService
 
+[![Ruby](https://github.com/hoppergee/solidservice/actions/workflows/main.yml/badge.svg)](https://github.com/hoppergee/solidservice/actions/workflows/main.yml)
+<a href="https://codeclimate.com/github/hoppergee/solidservice/maintainability"><img src="https://api.codeclimate.com/v1/badges/625ef769e60ab39159ce/maintainability" /></a>
+
 Servcie object with a simple API.
 
 ```ruby
