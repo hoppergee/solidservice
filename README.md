@@ -44,7 +44,7 @@ mkdir app/services
 2. Create the service you want
 
 ```ruby
-class UpdateUser < SolidService
+class UpdateUser < SolidService::Base
   def call
     if user.update(user_params)
       success!(user: user)
@@ -121,7 +121,7 @@ result.email
 If you don't call above 4 methods, the servcie will be marked as success by default. It's some those service which just want to execute some action and don't want to return any thing.
 
 ```ruby
-class ACommandService < SolidService
+class ACommandService < SolidService::Base
   def call
     # Do some actions that don't need to return anything
   end
@@ -136,13 +136,13 @@ result.success? #=> true
 Sometimes, we want to use a service in another service, but don't want to doing `if/else` on the state object everywhere, then we can use `call!` for the inner service. Then the service will raise error on failure.
 
 ```ruby
-class Action2 < SolidService
+class Action2 < SolidService::Base
   def call
     fail!(error: StandardError.new('something wrong'))
   end
 end
 
-class Action1 < SolidService
+class Action1 < SolidService::Base
   def call
     Action2.call!
   end
