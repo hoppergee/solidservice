@@ -16,4 +16,5 @@ gem "minitest", "~> 5.0"
 group :development, :test do
   gem "debug"
   gem 'matrixeval-ruby'
+  gem 'simplecov'
 end
