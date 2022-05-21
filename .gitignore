@@ -8,3 +8,4 @@
 /tmp/
 .matrixeval/docker-compose
 .matrixeval/gemfile_locks
+Gemfile.lock
