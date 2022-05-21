@@ -9,7 +9,7 @@ class SolidService::TestError < ApplicationTest
   end
 
   def test_service_result
-    fail_state = SolidService::Base::State.new(:fail)
+    fail_state = SolidService::State.new(:fail)
     error = SolidService::Error.new('something wrong', service_result: fail_state)
     assert_equal "something wrong", error.message
     assert_equal fail_state, error.service_result

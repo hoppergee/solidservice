@@ -8,5 +8,7 @@ module SolidService
   autoload :Failure, "solidservice/failure"
   autoload :Success, "solidservice/success"
 
+  autoload :State, "solidservice/state"
+
   autoload :Base, "solidservice/base"
 end

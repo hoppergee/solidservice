@@ -1,26 +1,8 @@
 module SolidService
   class Base
- 
-    class State
-      def initialize(state, data={})
-        @state = state || :success
-        @_data = (data || {}).with_indifferent_access
-      end
-   
-      def success?
-        @state == :success
-      end
-  
-      def fail?
-        @state == :fail
-      end
-  
-      def method_missing(key)
-        @_data[key]
-      end
-    end
   
     class << self
+
       def call(params={})
         service = new(params)
         service.call
@@ -47,6 +29,7 @@ module SolidService
           raise Error.new("Service failed", service_result: state)
         end
       end
+
     end
   
     attr_reader :params, :state
