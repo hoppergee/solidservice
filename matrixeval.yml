@@ -12,6 +12,9 @@ matrix:
   ruby:
     main: true
     variants:
+      - key: 2.6
+        container:
+          image: ruby:2.6.10
       - key: 2.7
         container:
           image: ruby:2.7.6
@@ -53,8 +56,8 @@ matrix:
   #         ENV_KEY: 2
 
 exclude:
-  # - ruby: 3.0
-  #   rails: 4.2
+  - ruby: 2.6
+    rails: 7.0
   # - ruby: jruby-9.3
   #   rails: 7.0
 
