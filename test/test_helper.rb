@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 require 'simplecov'
+
+if ENV['UPLOAD_COVERAGE_TO_CODECLIMATE']
+  require "simplecov_json_formatter"
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
+end
+
 SimpleCov.start do
   add_filter "/test"
 end

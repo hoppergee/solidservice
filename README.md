@@ -1,5 +1,9 @@
 # SolidService
 
+[![CI](https://github.com/hoppergee/solidservice/actions/workflows/main.yml/badge.svg)](https://github.com/hoppergee/solidservice/actions/workflows/main.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/625ef769e60ab39159ce/maintainability)](https://codeclimate.com/github/hoppergee/solidservice/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/625ef769e60ab39159ce/test_coverage)](https://codeclimate.com/github/hoppergee/solidservice/test_coverage)
+
 Servcie object with a simple API.
 
 ```ruby

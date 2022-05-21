@@ -1,4 +1,4 @@
-name: Ruby
+name: CI
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
+    name: Ruby ${{ matrix.ruby }} & Rails ${{ matrix.rails_version }}
     strategy:
       matrix:
         ruby:
@@ -30,6 +30,7 @@ jobs:
 
     env:
       RAILS_VERSION: "~> ${{ matrix.rails_version }}.0"
+      UPLOAD_COVERAGE_TO_CODECLIMATE: true
 
     steps:
     - uses: actions/checkout@v3
@@ -38,5 +39,19 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
+
+    - name: Setup Code Climate test-reporter
+      if: matrix.ruby == '3.1' && matrix.rails_version == '7.0'
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+
     - name: Run the default task
       run: bundle exec rake
+
+    - name: Publish code coverage
+      if: matrix.ruby == '3.1' && matrix.rails_version == '7.0'
+      run: |
+        export GIT_BRANCH="${GITHUB_REF/refs\/heads\//}"
+        ./cc-test-reporter after-build -r ${{secrets.CC_TEST_REPORTER_ID}}
