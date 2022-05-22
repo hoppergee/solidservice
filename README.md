@@ -19,6 +19,7 @@ result.fail? #=> false
 Check the [Q&A](#qa) for popular questions like:
 
 - Is this gem has any different than interactor, simple_command and dry-monads?
+- You use rescue to handle control flow? That's a bad idea.
 
 ## Installation
 
