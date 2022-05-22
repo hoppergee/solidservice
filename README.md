@@ -87,7 +87,7 @@ end
 
 ## Only 4 DSL in the `call` method
 
-- `success!` - Success the servcie immediately, any code after it won't be execute (Recommend)
+- `success!` - Success the service immediately, any code after it won't be execute (Recommend)
 - `success` - Just update the state to success
 - `fail!` - Fail the service immediately, any code after it won't be execute (Recommend)
 - `fail` - Just update the state to fail
@@ -116,9 +116,9 @@ result.error
 result.email
 ```
 
-## Servcie success by default
+## service success by default
 
-If you don't call above 4 methods, the servcie will be marked as success by default. It's some those service which just want to execute some action and don't want to return any thing.
+If you don't call above 4 methods, the service will be marked as success by default. It's some those service which just want to execute some action and don't want to return any thing.
 
 ```ruby
 class ACommandService < SolidService::Base
