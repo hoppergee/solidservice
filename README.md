@@ -123,7 +123,7 @@ result.email
 
 ## service success by default
 
-If you don't call above 4 methods, the service will be marked as success by default. It's some those service which just want to execute some action and don't want to return any thing.
+If you don't call above 4 methods, the service will be marked as success by default. When some services which just want to execute some actions and don't want to return anything, go ahead, SolidService will take care of it.
 
 ```ruby
 class ACommandService < SolidService::Base
