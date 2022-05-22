@@ -167,8 +167,8 @@ Here are some the key advantages:
 - You can master it in a few of seconds and start to use it in real projects.
 - Easy to write concise, readable and maintainable code with only 4 DSL
 - Unify input and output but without any restrictions
-  - Input is a hash called `params`. It's Rails dev friendly, use is just like a controller
-  - Output is an state object with hash data.
+  - The input is a hash called `params`. It's Rails dev friendly, use it just like a controller
+  - The output is an state object with hash data. Call any methods on it, it won't raise error on data missing.
 
 ### You use rescue to handle control flow? That's a bad idea.
 
