@@ -60,7 +60,7 @@ class UpdateUser < SolidService::Base
   end
 
   def user_params
-    @user ||= params[:user_params]
+    @user_params ||= params[:user_params]
   end
 end
 ```
