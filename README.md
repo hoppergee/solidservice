@@ -16,6 +16,10 @@ result.fail? #=> false
 - Service only has one public method `.call` with a hash input argument
 - The `.call` always return a `State` object. You can ask the state object the execution result
 
+Check the [Q&A](#qa) for popular questions like:
+
+- Is this gem has any different than interactor, simple_command and dry-monads?
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
@@ -153,6 +157,69 @@ result.fail? #=> true
 result.error #=> #<StandardError: something wrong>
 ```
 
+## Q&A
+
+### Is this gem has any different than interactor, simple_command and dry-monads?
+
+Here are some the key advantages:
+
+- It's much simple then other service like pattern.
+- You can master it in a few of seconds and start to use it in real projects.
+- Easy to write concise, readable and maintainable code with only 4 DSL
+- Unify input and output but without any restrictions
+  - Input is a hash called `params`. It's Rails dev friendly, use is just like a controller
+  - Output is an state object with hash data.
+
+### You use rescue to handle control flow? That's a bad idea.
+
+**This gem doesn't force you to do that.** Those rescue handle on `Success` and `Failure` only work when you use `success!` and `fail!`. You can only use `success` and `fail` if you don't like the rescue pattern.
+
+I use it for a very practical reason. I believe many people have met this issue in the controller:
+
+```ruby
+class ExampleController < ApplicationController
+  def create
+     if a_condition
+        render :a_page and return
+     end
+
+     # ......
+  end
+end
+```
+
+I meet the same issue in service:
+
+```ruby
+class ExampleService < SolidService::Base
+  def call
+    if check_1_failed
+      fail(user: user) and return
+    end
+
+    if check_2_failed
+      fail(user: user) and return
+    end
+
+    # ...
+  end
+end
+```
+
+I hate this. It's very low readability. So I comes up with with the rescue way to end the action immediately when I call `success!` and `fail!`
+
+```ruby
+class ExampleService < SolidService::Base
+  def call
+    fail!(user: user) if check_1_failed
+    fail!(user: user) if check_2_failed
+
+    # ...
+  end
+end
+```
+
+I think it's much better. So you see, the `rescue` is for `success!` and `fail!` only. You can still use `success` and `fail`. Even me, I did have a few circumstances need me to call success multiple times, then I will use it also.
 
 ## Development
 
